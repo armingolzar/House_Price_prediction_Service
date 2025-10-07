@@ -3,6 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MinMaxScaler, StandardScaler, OrdinalEncoder
+from joblib import dump
 
 
 def Data_Prepration(path):
@@ -75,6 +76,11 @@ def Data_Prepration(path):
 
        mid_price = label_train.median()['price']
        print(mid_price)
+
+       dump(SS, '.\\models\\standard_scaler_numerical.pkl')
+       dump(OE1, '.\\models\\ordinal_encoder_category.pkl')
+       dump(OE2, '.\\models\\ordinal_encoder_ordinal.pkl')
+
 
        dataset_train_normalized = pd.concat([data_train_numerical_scaled, data_train_categorical_encoded, data_train_ordinal_encoded], axis=1)
        dataset_test_normalized = pd.concat([data_test_numerical_scaled, data_test_categorical_encoded, data_test_ordinal_encoded], axis=1)
