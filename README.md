@@ -63,18 +63,24 @@ The price range in the dataset is around **11,000,000 $**.
 ## 🧭 How to Run
 1. Start the FastAPI service:
 
-```uvicorn src.api.app:app --reload
+```
+uvicorn src.api.app:app --reload
+
 ```
 
 2. Open a new terminal in the project root and run:
 
-```python test_request.py
+```
+python test_request.py
+
 ```
 
 3. You’ll receive a JSON response with the predicted house price:
 
-``` Response status code: 200
-    Prediction: {"predicted_price": 8450000.0}
+``` 
+Response status code: 200
+Prediction: {"predicted_price": 8450000.0}
+
 ```
 
 ## 🧩 Requirements
