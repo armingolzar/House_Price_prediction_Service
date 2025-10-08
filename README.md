@@ -37,7 +37,8 @@ The price range in the dataset is around **11,000,000 $**.
 
 ## 🧠 Repository Structure
 
-bash ```
+bash
+
     house_price_prediction_service/
     │
     ├── src/
@@ -61,24 +62,28 @@ bash ```
 
 ## 🧭 How to Run
 1. Start the FastAPI service:
-bash ```
+
+bash
     uvicorn src.api.app:app --reload
 
 2. Open a new terminal in the project root and run:
-bash ```
+
+bash
     python test_request.py
 
 3. You’ll receive a JSON response with the predicted house price:
-bash ```
+
+bash
     Response status code: 200
     Prediction: {"predicted_price": 8450000.0}
 
 ## 🧩 Requirements
 Install dependencies using:
-bash ```
+
+bash
     pip install -r requirements.txt
 
 
-Author: Armin Golzar
-Field: AI Specialist
+Author: Armin Golzar <br>
+Field: AI Specialist <br>
 Project Type: Educational / Training Demonstration
