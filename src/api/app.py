@@ -5,7 +5,7 @@ from joblib import load
 import numpy as np
 import os 
 
-
+print("✅ app.py imported successfully")
 app = FastAPI(title = "🏠 House Price Prediction API")
 
 model, s_scaler, o_encoder1, o_encoder2 = None, None, None, None
@@ -32,10 +32,14 @@ class House_Features(BaseModel):
     furnishingstatus : str
 
 @app.on_event("startup")
-def load_artifacts():
+async def load_artifacts():
+    import traceback
     global model, s_scaler, o_encoder1, o_encoder2
     try:
-        print(os.getcwd())
+        print("🚀 [Startup] Initializing model and scaler...")
+
+        print(f"📁 Current working dir: {os.getcwd()}")
+        print(f"📦 MODEL_PATH = {MODEL_PATH}")
         model = load_model(MODEL_PATH)
         s_scaler = load(S_SCALER_PATH)
         o_encoder1 = load(O_ENCODER1_PATH)
@@ -47,7 +51,7 @@ def load_artifacts():
         model, s_scaler, o_encoder1, o_encoder2 = None, None, None, None
 
         print("❌ Error loading artifacts:", str(e))
-
+        traceback.print_exc()
 
 
 
@@ -81,7 +85,7 @@ def predict_price(data : House_Features):
         prediction = model.predict(final_features)
         price = float(prediction[0])
 
-        return {"predicted_price" : price}
+        return {"predicted_price" : int((price * 11000000) + 175000)}
     
     except Exception as e:
 
