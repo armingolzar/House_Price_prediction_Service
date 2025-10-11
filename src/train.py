@@ -39,7 +39,8 @@ def main():
     final_val_mae = history.history["val_mae"][-1]
     final_val_mae_unscaled = final_val_mae * price_range
     print(
-        f"🎯 The unscaled MAE is : {int(final_val_mae_unscaled)}. This means each prediction on avarage has {int(final_val_mae_unscaled)}$ error in pricing."
+        f"🎯 The unscaled MAE is : {int(final_val_mae_unscaled)}."
+        f"This means each prediction on avarage has {int(final_val_mae_unscaled)}$ error in pricing."
     )
     error_percentage_on_median = (final_val_mae_unscaled / mid_price) * 100
     print(
