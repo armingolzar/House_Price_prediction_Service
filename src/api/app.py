@@ -38,21 +38,24 @@ class House_Features(BaseModel):
 async def load_artifacts():
     import traceback
 
-    global model, s_scaler, o_encoder1, o_encoder2
+    
     try:
         print("🚀 [Startup] Initializing model and scaler...")
 
         print(f"📁 Current working dir: {os.getcwd()}")
         print(f"📦 MODEL_PATH = {MODEL_PATH}")
-        model = load_model(MODEL_PATH)
-        s_scaler = load(S_SCALER_PATH)
-        o_encoder1 = load(O_ENCODER1_PATH)
-        o_encoder2 = load(O_ENCODER2_PATH)
+        app.state.model = load_model(MODEL_PATH)
+        app.state.s_scaler = load(S_SCALER_PATH)
+        app.state.o_encoder1 = load(O_ENCODER1_PATH)
+        app.state.o_encoder2 = load(O_ENCODER2_PATH)
 
         print("✅ Models loaded successfully")
 
     except Exception as e:
-        model, s_scaler, o_encoder1, o_encoder2 = None, None, None, None
+        app.state.model = None
+        app.state.s_scaler = None
+        app.state.o_encoder1 = None
+        app.state.o_encoder2 = None
 
         print("❌ Error loading artifacts:", str(e))
         traceback.print_exc()
@@ -65,13 +68,12 @@ def home():
 
 @app.post("/predict")
 def predict_price(data: House_Features):
-    global model, s_scaler, o_encoder1, o_encoder2
 
     if (
-        (model is None)
-        or (s_scaler is None)
-        or (o_encoder1 is None)
-        or (o_encoder2 is None)
+        (app.state.model is None)
+        or (app.state.s_scaler is None)
+        or (app.state.o_encoder1 is None)
+        or (app.state.o_encoder2 is None)
     ):
         raise HTTPException(status_code=500, detail="Models not loaded")
 
@@ -94,16 +96,16 @@ def predict_price(data: House_Features):
         )
         ordinal_features = np.array([[data.furnishingstatus]])
 
-        numerical_features_scaled = s_scaler.transform(numerical_features)
-        categorical_features_encoded = o_encoder1.transform(categorical_features)
-        ordinal_features_encoded = o_encoder2.transform(ordinal_features)
+        numerical_features_scaled = app.state.s_scaler.transform(numerical_features)
+        categorical_features_encoded = app.state.o_encoder1.transform(categorical_features)
+        ordinal_features_encoded = app.state.o_encoder2.transform(ordinal_features)
 
         final_features = np.hstack(
             (numerical_features_scaled, categorical_features_encoded)
         )
         final_features = np.hstack((final_features, ordinal_features_encoded))
 
-        prediction = model.predict(final_features)
+        prediction = app.state.model.predict(final_features)
         price = float(prediction[0])
 
         return {"predicted_price": int((price * 11000000) + 175000)}
