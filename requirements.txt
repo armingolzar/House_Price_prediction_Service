@@ -1,12 +1,20 @@
-tensorflow==2.10.1
-numpy==1.24.4
-pandas==2.0.3
-matplotlib==3.7.5
-scikit-learn==1.3.2
-joblib==1.4.2
-fastapi
-uvicorn[standard]
-pydantic
-pytest
-requests
-httpx
+14.F X B
+15.A
+16.C 
+17.G X E
+18.B 
+19.B
+20.C
+21.C
+22.fire
+23.nutrients
+24.cavities
+25.howthorn
+26.rare
+
+34 min full passage 
+
+
+
+
+

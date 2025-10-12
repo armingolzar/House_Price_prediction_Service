@@ -38,17 +38,14 @@ class House_Features(BaseModel):
 async def load_artifacts():
     import traceback
 
-    
     try:
         print("🚀 [Startup] Initializing model and scaler...")
-
         print(f"📁 Current working dir: {os.getcwd()}")
         print(f"📦 MODEL_PATH = {MODEL_PATH}")
         app.state.model = load_model(MODEL_PATH)
         app.state.s_scaler = load(S_SCALER_PATH)
         app.state.o_encoder1 = load(O_ENCODER1_PATH)
         app.state.o_encoder2 = load(O_ENCODER2_PATH)
-
         print("✅ Models loaded successfully")
 
     except Exception as e:
