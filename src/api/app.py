@@ -11,12 +11,12 @@ app = FastAPI(title="🏠 House Price Prediction API")
 model, s_scaler, o_encoder1, o_encoder2 = None, None, None, None
 
 
-MODEL_PATH = os.getenv("MODEL_PATH", ".\\models\\house_price_prediction_model.h5")
-S_SCALER_PATH = os.getenv("S_SCALER_PATH", ".\\models\\standard_scaler_numerical.pkl")
+MODEL_PATH = os.getenv("MODEL_PATH", os.path.join('./models', 'house_price_prediction_model.h5'))
+S_SCALER_PATH = os.getenv("S_SCALER_PATH", os.path.join('./models', 'standard_scaler_numerical.pkl'))
 O_ENCODER1_PATH = os.getenv(
-    "O_ENCODER1_PATH", ".\\models\\ordinal_encoder_category.pkl"
+    "O_ENCODER1_PATH", os.path.join('./models', 'ordinal_encoder_category.pkl')
 )
-O_ENCODER2_PATH = os.getenv("O_ENCODER2_PATH", ".\\models\\ordinal_encoder_ordinal.pkl")
+O_ENCODER2_PATH = os.getenv("O_ENCODER2_PATH", os.path.join('./models', 'ordinal_encoder_ordinal.pkl'))
 
 
 class House_Features(BaseModel):
