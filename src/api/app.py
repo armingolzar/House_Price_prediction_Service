@@ -11,12 +11,18 @@ app = FastAPI(title="🏠 House Price Prediction API")
 model, s_scaler, o_encoder1, o_encoder2 = None, None, None, None
 
 
-MODEL_PATH = os.getenv("MODEL_PATH", os.path.join('./models', 'house_price_prediction_model.h5'))
-S_SCALER_PATH = os.getenv("S_SCALER_PATH", os.path.join('./models', 'standard_scaler_numerical.pkl'))
-O_ENCODER1_PATH = os.getenv(
-    "O_ENCODER1_PATH", os.path.join('./models', 'ordinal_encoder_category.pkl')
-)
-O_ENCODER2_PATH = os.getenv("O_ENCODER2_PATH", os.path.join('./models', 'ordinal_encoder_ordinal.pkl'))
+# MODEL_PATH = os.getenv("MODEL_PATH", r"./models/house_price_prediction_model.h5")
+# S_SCALER_PATH = os.getenv("S_SCALER_PATH", r"./models/standard_scaler_numerical.pkl")
+# O_ENCODER1_PATH = os.getenv(
+#     "O_ENCODER1_PATH", r"./models/ordinal_encoder_category.pkl"
+# )
+# O_ENCODER2_PATH = os.getenv("O_ENCODER2_PATH", r"./models/ordinal_encoder_ordinal.pkl")
+
+
+MODEL_PATH = os.getenv("MODEL_PATH", os.path.join("models", "house_price_prediction_model.h5"))
+S_SCALER_PATH = os.getenv("S_SCALER_PATH", os.path.join("models", "standard_scaler_numerical.pkl"))
+O_ENCODER1_PATH = os.getenv("O_ENCODER1_PATH", os.path.join("models", "ordinal_encoder_category.pkl"))
+O_ENCODER2_PATH = os.getenv("O_ENCODER2_PATH", os.path.join("models", "ordinal_encoder_ordinal.pkl"))
 
 
 class House_Features(BaseModel):
@@ -37,6 +43,8 @@ class House_Features(BaseModel):
 @app.on_event("startup")
 async def load_artifacts():
     import traceback
+    host = "localhost"  # host for Windows browser
+    port = 8080
 
     try:
         print("🚀 [Startup] Initializing model and scaler...")
@@ -47,6 +55,7 @@ async def load_artifacts():
         app.state.o_encoder1 = load(O_ENCODER1_PATH)
         app.state.o_encoder2 = load(O_ENCODER2_PATH)
         print("✅ Models loaded successfully")
+        print(f"🏠 FastAPI ready! Open http://{host}:{port}/docs in your browser")
 
     except Exception as e:
         app.state.model = None
